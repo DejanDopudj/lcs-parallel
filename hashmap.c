@@ -114,23 +114,3 @@ void printHashMap(HashMap* map) {
 
     printf("\n");
 }
-
-// int main() {
-//     HashMap* map = createHashMap(TABLE_SIZE);
-
-//     // Add key-value pairs
-//     add(map, "one", 1);
-//     add(map, "two", 2);
-//     add(map, "three", 3);
-
-//     // Get values using keys
-//     printf("Value for key 'one': %d\n", get(map, "one"));
-//     printf("Value for key 'two': %d\n", get(map, "two"));
-//     printf("Value for key 'three': %d\n", get(map, "three"));
-//     printf("Value for key 'four': %d\n", get(map, "four")); // Key not found, will print default value
-
-//     // Free the memory used by the hash map
-//     freeHashMap(map);
-
-//     return 0;
-// }

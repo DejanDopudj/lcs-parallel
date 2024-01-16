@@ -13,7 +13,7 @@ int my_max(int a, int b) {
 int lcs_top_down(char text1[], char text2[], int i, int j, HashMap* ht) {
     if (text1[i] == '\0' || text2[j] == '\0')
         return 0;
-    char key[10000];
+    char key[10];
     sprintf(key, "%dS%d", i, j);
     int val = get(ht,key);
     if (val != -1){
@@ -46,27 +46,25 @@ int lcs_top_down(char text1[], char text2[], int i, int j, HashMap* ht) {
 }
 
 int main() {
-    clock_t begin = clock();
-
-    char text1[] = "asdfasdfgsqweadgdfgdsgsdfgsdfa";
-    char text2[] = "asdfzxcbasddsafgsdfgsdgsdfgf";
+    char text1[] = "tfgest";
+    char text2[] = "tesjht";
     int len1 = sizeof(text1) - 1; 
     int len2 = sizeof(text2) - 1; 
     
-    HashMap* ht = createHashMap(pow(2,16));
+    HashMap* ht = createHashMap(pow(2,14));
+    clock_t start = clock();
     #pragma omp parallel num_threads(4)
-    {
-        int result = lcs_top_down(text1, text2, 0, 0, ht);
-        printf("Length of Longest Common Subsequence: %d\n", result);
+    {  
+        //moguce je dodati da se nakon jednog izvrsavanja svi ostali threadovi zaustave
+        //ali kako je do tada hes tabela vec skoro skroz popunjena, ne bi mnogo optimizovalo 
+        int res = lcs_top_down(text1, text2, 0, 0, ht);  
+        printf("%d\n", res);
     }
     clock_t end = clock();
-    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("%d %d",(end), begin);
-    char endkey[10000];
-    sprintf(endkey, "%dS%d",6, 6);
-    
+    double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
-    // printf(hashFunction("6S6", ht->size));
+    printf("Time taken: %f seconds\n", cpu_time_used);
+
 
     return 0;
 }
