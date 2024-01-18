@@ -27,7 +27,7 @@ int longestCommonSubsequence(char *text1, char *text2) {
 
     int help = 1, i = 1, j = 1;
     while(help < m + n ){
-        #pragma omp parallel for firstprivate(i,j)
+        #pragma omp parallel for firstprivate(i,j) num_threads(4)
         for (int helpInner = 0; helpInner < my_min(i,(n-j+1)); helpInner++) {
             int helpI = i-helpInner;
             int helpJ = j+helpInner;
@@ -46,12 +46,6 @@ int longestCommonSubsequence(char *text1, char *text2) {
         }
     }
 
-    for (int i = 0; i <= m; ++i) {
-        for (int j = 0; j <= n; ++j) {
-            printf("%d ", dp[i][j]);
-        }
-        printf("\n");
-    }
 
     int result = dp[m][n];
 
@@ -64,10 +58,24 @@ int longestCommonSubsequence(char *text1, char *text2) {
 }
 
 int main() {
-    char text1[] = "CDEEA";
-    char text2[] = "BCDEFA";
-
+    clock_t start = clock();
+    
+    FILE *in = fopen("t6.txt", "r");
+    int m = 50000;
+    int n = 50000;
+    char *text1 = (char *)malloc(m * sizeof(char));
+    char *text2 = (char *)malloc(n * sizeof(char));
+    fscanf(in, "%s %s", text1, text2);
+    fclose(in);
+    int len1 = sizeof(text1) - 1; 
+    int len2 = sizeof(text2) - 1; 
     printf("Length of Longest Common Subsequence: %d\n", longestCommonSubsequence(text1, text2));
+    
+    clock_t end = clock();
+    double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+
+    printf("Time taken: %f seconds\n", cpu_time_used);
+
 
     return 0;
 }
